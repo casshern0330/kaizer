@@ -1,0 +1,22 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<title>2列固定宽度左窄右宽型+头部+尾部——<a href="http://www.aa25.cn">标准之路www.aa25.cn</a></title>
+</head>
+<script type="text/javascript">
+	//IE与FF中获取事件的方法
+	function showValue(eventTags){
+		alert(eventTags.keyCode);
+	}
+</script>
+<body>
+<div>
+	<!--这个地方的函数参数名称必须是event,IE与FF一样，否则报错-->
+	<input type="text" value="" onkeydown="showValue(event)"/>
+	<br>
+	<!--参数名称不叫eventTags,报错-->
+	<input type="text" value="" onkeydown="showValue(eventTags)"/>
+</div>
+</body>
+</html>

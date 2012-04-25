@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=GBK" />
+    <script type="text/javascript">        
+        /*
+         *@description:
+         */
+        function showFocus(eventTag){
+            var eventTag = eventTag ? eventTag : window.event;
+            var addBtn = document.getElementById("addBtn");
+            if(eventTag.keyCode == 9){
+                eventTag.keyCode = 0;
+                addBtn.focus();
+                preventEvt(eventTag);
+            }
+        }
+        
+        /*
+         *@description:阻止浏览器事件继续执行
+         */
+        function preventEvt(eventTag){
+            if(eventTag.preventDefault){
+                //FireFox
+                eventTag.preventDefault();
+            } else {
+                //IE
+                eventTag.returnValue = false;   
+            }
+        }
+        
+        function showMsg(){
+            alert('aa');   
+        }
+    </script>
+</head>
+<body>
+    <div>
+        <input type="text" value="" onkeydown="showFocus(event);"/>
+        <input type="text" value=""/>
+        <br>
+        <input type="text" value=""/>
+    </div>
+    <div>
+        <input type="button" id="addBtn" value="add" onclick="showMsg();"/>
+    </div>
+</body>
+</html>

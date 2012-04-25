@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Insert title here</title>
+<script type="text/javascript" src="njs/jquery-1.7.2.js"></script>
+<script type="text/javascript">
+	function getInfo(){
+			var url = "http://10.209.76.99:18000/npage/portal_itms/work/ajax_callcount.jsp";
+			$.ajax({
+					url : url,
+					type : "POST",
+					dataType : "json",
+					success : function(msg){
+						/*{'dayInCount':int,'dayOutCount':int,'weekInCount':int,'weekOutCout':int,'monthInCout':int,'monthOutCount':int}*/
+						alert(msg);
+					}
+			});
+	}
+	
+	function getRequest(){
+		 var xmlHttp;
+		 if(window.XMLHttpRequest){
+		 		xmlHttp = new XMLHttpRequest();	
+		 } else {
+		 		//code for IE5\IE6
+		 		xmlHttp = new ActiveObject("Microsoft.XMLHTTP");	
+		 }
+		 return xmlHttp;
+	}
+
+	function getInfoByRaw(){
+		//var url = "http://10.209.76.99:18000/npage/portal_itms/work/ajax_callcount.jsp";
+		var url = 'http://localhost:8080/Tomy/ajaxServlet';
+		var xmlHttp = getRequest();
+		xmlHttp.onreadystatechange = function(){
+			try{
+				if(xmlHttp.readyState == 4){
+					if(xmlHttp.status == 200){
+						var msg = xmlHttp.responseText;
+						alert(msg);
+					}
+				}
+			}catch(e){
+				alert("caught exception: " + e.description);
+			}
+		};
+		xmlHttp.open('GET',url,true);
+		xmlHttp.send(null);
+	}
+</script>
+</head>
+<body>
+	<input type="button" value="ajax1" onclick="getInfo()"/>
+	<input type="button" value="ajax2" onclick="getInfoByRaw()"/>
+</body>
+</html>
