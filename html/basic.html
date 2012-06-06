@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="GBK">
+<title>Insert title here</title>
+<style type="text/css">
+    #page_header{
+        width: 100%;
+        height: 100px;
+        background: #FFCCAA none repeat scroll;
+    }
+    
+    #left_section{
+        float: left;
+        width: 70%;
+        margin: 0px;
+        border: 1px;
+        height: 400px;
+        /*background: none repeat scroll #00FFAA;*/
+    }
+    
+    #right_section{
+        float: right;
+        width: 30%;
+        margin: 0px;
+        border: 1px;
+        height: 400px;
+        background: none repeat scroll #CCAAFF;
+    }
+    
+    #page_footer{
+        width: 100%;
+        height: 100px;
+        background: none repeat scroll #CCAAFF;
+    }
+    
+    .multiBtn{
+        width:225px;
+        border: 1px solid #FBD850;
+        color: #EB8F00;
+        text-align: left;
+        border-radius: 4px;  
+    }
+    
+    #multi{
+        position:absolute;
+        border:1px solid #DDDDDD;
+        color: #333333;
+        z-index: 100;
+        -moz-border-radius: 4px;
+        -webkit-border-radius: 4px;
+        border-radius: 4px;
+        display:none;
+        height:100px;
+        overflow:auto;
+    }
+    
+    ul{
+        border: 0 none;
+        list-style: none outside none;
+        margin: 0;
+        outline: 0 none;
+        text-align: left;
+        padding: 0px; 
+    }
+    
+    ul li{
+        border: 1px solid transparent;
+        padding-right: 3px;
+        clear: both;   
+    }
+    
+    ul li input{
+        position:relative;   
+    }
+</style>
+<script type="text/javascript" src="njs/jquery-1.7.2.js"></script>
+<script type="text/javascript">
+    function showMult() {
+        $("#multi").toggle();
+    }
+    
+    $(document).ready(function(){
+        var multiBtn = $("#multiBtn");
+        var off =  getOffset(multiBtn.get(0));
+        var height = multiBtn.height();
+        var width = multiBtn.width();
+        var multi = $("#multi");
+        
+        multi.css("top",off.top+height+2);
+        multi.css("left",off.left);
+        multi.css("width",width);
+    });
+    
+    function getOffset(e){
+         var offsetTop = e.offsetTop;
+         var offsetLeft = e.offsetLeft;
+         while(e = e.offsetParent) {
+              offsetTop += e.offsetTop;
+              offsetLeft += e.offsetLeft;
+         }
+         return {"top":offsetTop,"left":offsetLeft};
+    }
+    
+    function hideMulti(event) {
+        var e = event || window.event;
+        var srcEle = e.srcElement || e.target;
+        if($(srcEle).attr("id") != 'multi' && $(srcEle).attr("id") != "multiBtn") {
+            $("#multi").hide();    
+        }   
+    }
+    
+    var overflag = false;
+    function inmulti() {
+        overflag = true;   
+    }
+    
+    function outmulti() {
+        overflag = false;   
+    }
+    
+    document.onmousedown = function(e) {
+        var e = e || window.event;
+        var srcEle = e.srcElement || e.target;
+        var multiBtn = document.getElementById("multiBtn");
+        if(srcEle == multiBtn)
+            return;
+        if(!overflag) {
+            $("#multi").hide();   
+        }   
+    }
+    
+    function showIndex() {
+        var option = $("#sel :selected");
+        alert(option.get(0).index);
+    }
+</script>
+</head>
+<body>
+    <header id="page_header">
+        <div>I'm the header</div>
+        <nav>
+            <a href="/kaiser/demo/demo.action">转入到demo页面</a>
+        </nav>
+    </header>
+    <section id="left_section">
+        <header></header>
+        <article>
+            <header></header>
+            <p></p>
+            <p></p>
+            <aside></aside>
+            <footer></footer>
+        </article>
+        <article>
+            <header></header>
+            <p></p>
+            <input type="text" id="multiBtn" class="multiBtn" value="" readonly onclick="showMult();"/>
+            <div id="multi" onblur="hideMulti(event);" onmouseover="inmulti();" onmouseout="outmulti();">
+                <ul>
+                    <li>
+                        <input type="checkbox" value="1"/>
+                        <span>option1</span>
+                    </li> 
+                    <li>
+                        <input type="checkbox" value="1"/>
+                        <span>option2</span>
+                    </li>
+                    <li>
+                        <input type="checkbox" value="1"/>
+                        <span>option3</span>
+                    </li>  
+                    <li>
+                        <input type="checkbox" value="1"/>
+                        <span>option3</span>
+                    </li> 
+                    <li>
+                        <input type="checkbox" value="1"/>
+                        <span>option3</span>
+                    </li> 
+                    <li>
+                        <input type="checkbox" value="1"/>
+                        <span>option3</span>
+                    </li> 
+                    <li>
+                        <input type="checkbox" value="1"/>
+                        <span>option3</span>
+                    </li>  
+                </ul>   
+            </div>
+            <div>
+                <select name="sel" id="sel">
+                    <option value="a">a</option>    
+                    <option value="b">b</option>    
+                    <option value="c">c</option>    
+                    <option value="d">d</option>    
+                </select>
+                <input type="button" value="sel" onclick="showIndex()"/>    
+            </div>
+            <footer></footer>
+        </article>
+        <footer></footer>
+    </section>
+    <section id="right_section">
+        <header></header>
+        <nav></nav>
+    </section>
+    <footer id="page_footer">
+        <div>I'm the footer</div>
+    </footer>
+</body>
+</html>

@@ -24,7 +24,7 @@ struct sockaddr_in6{
 };
 
 struct in6_addr{
-	uint8_t s6_addr[16];	//
+	in6_addr_t s6_addr[16];	//typedef uint8_t in6_addr_t;
 };
 
 

@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=GBK" />
+  
+  <script type="text/javascript">
+    /*
+     *@description: arr.slice(begin,end),方法返回数组中的[begin,end)的数据变成一个数组,但arr数组的数据不变
+    */
+    function testSlice(){
+        var arr = ['a','b','c','d','e','f'];
+        var arrnew = arr.slice(2,4);   //[2,4);
+        alert(arrnew);
+        alert(arr);
+    }
+    
+    /*
+     *@description: arr.splice(begin,length,item1,item2,...),方法返回被切割出来的数据,修改了arr数组的数据
+    */
+    function testSplice() {
+        var arr = ['a','b','c','d','e','f'];
+        var item = arr[2];
+        var arrnew = arr.splice(2,1);
+        alert(arr);
+        alert(typeof item);
+        alert(typeof arrnew);
+    }
+    
+    function testJoin() {
+        var arr = ['a','b','c','d','e','f'];
+        alert(arr.join());
+    }
+  </script>
+</head>
+<body>
+    <div>
+        <input type="button" value="slice" onclick="testSlice();"/>
+    </div>
+    <div>
+        <input type="button" value="splice" onclick="testSplice();"/>
+    </div>
+    <div>
+        <input type="button" value="join" onclick="testJoin();"/>    
+    </div>
+</body>
+</html>

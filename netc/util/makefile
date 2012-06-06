@@ -12,6 +12,10 @@ all:hello client server
 hello:hello.o
 	$(CC) $(CFLAGS) -o $(BINDIR)/$@ $?
 
+copy:copy.o
+	rm -rf $(BINDIR)/$@
+	$(CC) $(CFLAGS) -o $(BINDIR)/$@ $? $(LIBS)
+
 client:client.o
 	$(CC) $(CFLAGS) -o $(BINDIR)/$@ $? $(LIBS)
 

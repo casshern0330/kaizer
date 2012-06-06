@@ -29,8 +29,52 @@
             }
         }
         
-        function showMsg(){
-            alert('aa');   
+        function change(eventTag) {
+            var eventTag = eventTag ? eventTag : window.event;
+            var addBtn = document.getElementById("addBtn");
+            if(eventTag.ctrlKey && eventTag.keyCode == 13){
+                var tar = document.getElementById("t");
+                setCursorPosition(tar,tar.value.length);
+                document.getElementById("t").value += '\r\n';
+            }
+        }
+        
+        /*
+         * @description:设置光标位置函数
+         */
+        function setCursorPosition(obj,pos) {
+            var range = null;
+            //IE
+            if(obj.createTextRange) {
+                range = obj.createTextRange();
+                range.move("character",pos);
+                range.select();
+            //FF
+            } else if(obj.setSelectionRange) {
+                obj.setSelectionRange(pos,pos);
+                obj.focus();  
+            }
+            range = null;
+        }
+        
+        /*
+         * @description: 获取光标当前位置
+         */
+        function getCursorPosition(obj) {
+            var curPos = 0;
+            //IE
+            if(ob.selection) {
+                obj.focus();
+                var range = document.selection.createRange();
+                alert(range.text);
+                range.moveStart('character',-obj.value.length);
+                alert(range.text);
+                curPos = range.text.length; 
+            //FF   
+            } else if(obj.selectionStart || obj.selectionStart == '0') {
+                curPos = obj.selectionStart; 
+            }
+            return curPos;
         }
     </script>
 </head>
@@ -42,7 +86,8 @@
         <input type="text" value=""/>
     </div>
     <div>
-        <input type="button" id="addBtn" value="add" onclick="showMsg();"/>
+        <textarea id="t" onkeydown="change(event)" rows=25></textarea> 
+        <input type="button" value="showPos" onclick="getCursorPosition(document.getElementById('t'));"/>   
     </div>
 </body>
 </html>
