@@ -39,7 +39,7 @@ void child_main(int listenfd,socklen_t addrlen)
 	socklen_t clilen;
 	struct sockaddr *cliaddr;
 	int	connfd;
-	cliaddr = malloc(clilen);
+	cliaddr = malloc(addrlen);
 	for(;;) {
 		clilen = addrlen;
 		if((connfd = accept(listenfd,cliaddr,&clilen)) < 0)
@@ -59,7 +59,7 @@ void web_child(int connfd)
 	for(;;){
 		if((nread = Readline(connfd,line,MAXLINE)) == 0)
 			return;
-		ntowrite = atoi(nread);
+		ntowrite = atoi(line);
 		if(ntowrite <= 0 || ntowrite >= MAXN)
 			err_quit("client request %d bytes\n",ntowrite);
 		Writen(connfd,result,ntowrite);
