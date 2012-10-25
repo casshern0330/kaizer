@@ -1,0 +1,29 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=GBK" />
+</head>
+<body>
+    <div>
+        <select name="test" id="testSelect">
+			<option value="0">A</option>
+			<option value="1">B</option>
+			<option value="2">C</option>
+			<option value="3">D</option>
+			<option value="4">E</option>
+			<option value="5">F</option>
+			<option value="6">G</option>
+			<option value="7">H</option>
+		</select>
+    </div>
+    <div>
+        <textarea id="t" onkeydown="change(event)" rows=25></textarea> 
+        <input type="button" value="showPos" onclick="getCursorPosition(document.getElementById('t'));"/>   
+    </div>
+</body>
+<script type="text/javascript">
+	window.onload = function(){
+		document.getElementById("testSelect").value="5";
+	};
+</script>
+</html>

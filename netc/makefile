@@ -1,13 +1,16 @@
 #HOME = /home/casshern
 UNPHOME = /cygdrive/d/library/unpv13e
 INCLUDE = -I$(UNPHOME)/include -I/usr/include
-LIBS = -L$(UNPHOME) -lunp
+LIBS = -L$(UNPHOME) -lunp -lm
 CFLAGS = -g -O2 -Wall $(INCLUDE)
 BINDIR=./bin
 
 CC = gcc
 
 all:hello client server
+
+test1:test1.o
+	$(CC) $(CFLAGS) -o $IBINDIR)/$@ $? $(LIBS)
 
 hello:hello.o
 	$(CC) $(CFLAGS) -o $(BINDIR)/$@ $?

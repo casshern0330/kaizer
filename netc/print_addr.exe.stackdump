@@ -1,9 +1,0 @@
-Exception: STATUS_ACCESS_VIOLATION at eip=00401218
-eax=00000000 ebx=00000000 ecx=7FFDE000 edx=00000000 esi=6127D354 edi=0022AC90
-ebp=0022AC68 esp=0022AC10 program=D:\grit\netc\netc\bin\print_addr.exe, pid 5128, thread main
-cs=001B ds=0023 es=0023 fs=003B gs=0000 ss=0023
-Stack trace:
-Frame     Function  Args
-0022AC68  00401218  (00000003, 0022AC90, 20010100, 61279C9A)
-0022ACF8  610070D8  (00000000, 0022CD78, 610066D0, 00000000)
-End of stack trace
