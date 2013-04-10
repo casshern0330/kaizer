@@ -1,7 +1,6 @@
-#HOME = /home/casshern
-UNPHOME = /cygdrive/d/library/unpv13e
-INCLUDE = -I$(UNPHOME)/include -I/usr/include
-LIBS = -L$(UNPHOME) -lunp -lm
+HOME = /home/hucw
+INCLUDE = -I/usr/include -I$(HOME)/include
+LIB = -L$(HOME)/lib -lunp -lm
 CFLAGS = -g -O2 -Wall $(INCLUDE)
 BINDIR=./bin
 
@@ -41,6 +40,9 @@ udpclient:udpclient.o
 	$(CC) $(CFLAGS) -o $(BINDIR)/$@ $? $(LIBS)
 
 udpserver:udpserver.o
+	$(CC) $(CFLAGS) -o $(BINDIR)/$@ $? $(LIBS)
+
+hostname:hostname.o
 	$(CC) $(CFLAGS) -o $(BINDIR)/$@ $? $(LIBS)
 
 mygetaddrinfo:mygetaddrinfo.o

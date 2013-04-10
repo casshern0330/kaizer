@@ -1,0 +1,31 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+</head>
+<body>
+	<div>
+		<input type="button" value="aa" onclick="testReg('123456')"/>
+	</div>
+	<div>
+		<input type="button" value="bb" onclick="instanceofTest()"/>
+	</div>
+</body>
+<script type="text/javascript">
+	function testReg(str){
+		str = str || "035110086";
+		var str2 = "125800351";
+		var regExp = /\d*(10086|12580)\d*/;
+		alert(str.replace(regExp,"$1"));
+		alert(str2.replace(regExp,"$1"));
+	}
+	
+	function instanceofTest(bb) {
+		 alert(bb);
+		 alert(typeof bb == 'undefined');
+		 var cc = null;
+		 var dd;
+		 alert(typeof cc != 'undefined' && cc);
+	}
+</script>
+</html>
