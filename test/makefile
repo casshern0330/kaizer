@@ -11,5 +11,10 @@ all:hello client server
 getWeb:getWeb.o
 	rm -rf $(BINDIR)/$@
 	$(CC) $(CFLAGS) -o $(BINDIR)/$@ $? $(LIBS)
+
+sockagent:sockagent.o
+	rm -rf $(BINDIR)/$@
+	$(CC) $(CFLAGS) -o $(BINDIR)/$@ $? $(LIBS)
+
 clean:
 	rm -rf *.o
