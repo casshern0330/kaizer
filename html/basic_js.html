@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>Examples</title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+<link href="" rel="stylesheet">
+</head>
+<body>
+    <div>
+		<input type="button" value="I" onclick="switchTab('I')"/>
+		<input type="button" value="J" onclick="switchTab('J')"/>
+		<input type="button" value="K" onclick="switchTab('K')"/>
+    </div>
+    <div>
+		<label>
+			<input type="button" value="foreachObj" onclick="foreachObj()"/>
+		</label>
+    </div>
+    <div>
+		<label>
+			<input type="button" value="paramsArr" onclick="paramsArr()"/>
+		</label>
+    </div>
+	<div>
+		<label>
+			<input type="button" value="ext" onclick="ext()"/>
+		</label>
+    </div>
+	<div>
+		<label>
+			<input type="button" value="refParam" onclick="refParam()"/>
+		</label>
+    </div>
+	<div>
+		<label>
+			<input type="button" value="typeofAndInstanceof" onclick="typeofAndInstanceof()"/>
+		</label>
+    </div>
+	<div>
+		<label>
+			<input type="button" value="myDecode" onclick="myDecode()"/>
+		</label>
+    </div>
+	<div>
+		<label>
+			<input type="button" value="deforeClose()" onclick="deforeClose()"/>
+		</label>
+    </div>
+	<div>
+		<label>
+			<a href="javascript:alink()">alink</a>
+			<a href="javascript:alink()" disabled="disabled">alink-disabled</a>
+		</label>
+    </div>
+</body>
+<script type="text/javascript" src="njs/jquery-1.7.2.js"></script>
+<script type="text/javascript">
+	function switchTab(type){
+		switch(type) {
+			case 'I':
+				alert("I'm type I");
+				break;
+			case 'J':
+				alert("I'm type J")
+				break;
+			case 'K':
+				alert("I'm type K");
+				break;
+			default:
+				break;
+		}
+	}
+
+	function foreachObj() {
+		var obj = new Object();
+		obj.name = "hucw";
+		obj.age = "18";
+		obj.brithday = "2013-08-08";
+		for(key in obj) {
+			alert(key);
+		}
+	}
+
+	function addURLParam() {
+		var params = new Array();
+		var arr = [{"ivrType":"00","ivrId":"100101"},
+					{"ivrType":"00","ivrId":"100102"},
+					{"ivrType":"00","ivrId":"100103"}];
+		if(arr instanceof Array) {
+		    for(var i=0;i<arr.length;i++) {
+				params.push("ivrId=" + arr[i].ivrId);
+		    }
+		}
+	}
+
+	function paramsArr(){
+		var arr = [{"ivrType":"00","ivrId":"100101"},
+					{"ivrType":"00","ivrId":"100102"},
+					{"ivrType":"00","ivrId":"100103"}];
+		alert($.param(arr[0]));
+		arr = ["100101","100102","100103"];
+		alert($.param(arr));
+	}
+	
+	function dataParam() {
+		var aa = "abcd";
+		var bb = aa;
+		aa = "defg";
+		bb = "gggg";
+	}
+	
+	function refParam() {
+		var target = {"ivrType" : "00" , "ivrId" : "100101" , "age" : 18, "money" : 18.09};
+		var copy = target;
+		copy.ivrId = "100102";
+		copy.age = 23;
+		copy.money = 19.99;
+		target.ivrId = "100103";
+		target.age = 28;
+		target.money = 20.19;
+		
+		var str = new String("defg");
+		var strCopy = "defg";
+		
+		var len = str.length;
+		var copyLen = strCopy.length;
+		
+		str = "gggg";
+	}
+	
+	function MyObj() {
+		this.name = "myObj";
+		this.age = 0;
+	}
+	
+	function typeofAndInstanceof() {
+		var o = new MyObj();
+		var typeofResult = typeof(o);
+		var inResult1 = o instanceof Object;
+		var inResult2 = o instanceof MyObj;
+	}
+	
+	function myDecode() {
+		var myObj = {"name" : "ºú²ý Î°","age" : 28,"country": "ÖÐ¹ú++"};
+		var result = $.param(myObj);
+		
+		result = decodeURIComponent(result);
+		result = encodeURIComponent(result);
+		result = decodeURIComponent(result);
+		
+		
+		result = escape(result);
+		result = unescape(result);
+		
+		result = encodeURI(result);
+		result = decodeURI(result);
+	}
+	
+	function deforeClose() {
+		window.close();
+	}
+	/*
+	window.onbeforeunload = function() {
+		alert("aaa");
+		return false;
+	}
+	*/
+	
+	function alink(){
+		alert("this is alink");
+	}
+</script>
+</html

@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="GBK">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>Examples</title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+<link href="" rel="stylesheet">
+</head>
+<body>
+	<div>
+		<label>
+			<input type="button" value="init" onclick="init()"/>
+		</label>
+    </div>
+</body>
+<script type="text/javascript" src="njs/jquery-1.7.2.js"></script>
+<script type="text/javascript">
+(function(window,undefined){
+	var _ParPhoneEx = window.ParPhoneEx;
+	
+	var $ = window.$;
+	
+	//外呼事件
+	var _callOutEvent = {
+		OnCallOutSuccess : null,
+		OnCallOutFailure : null,
+		OnCallOutSuccTalk : null,
+		OnUserHangupBeforeResponse : null
+	};
+	
+	//挂机事件
+	var _releaseEvent = {
+		OnReleaseExSuccess : null,
+		OnBeforeRelease : null,
+		OnReleaseExSuccess : null
+	};
+	
+	//接听事件
+	var _receiveEvent = {
+		OnCallerCalledInfoArrived : null,
+		OnRecordSuccessEx : null
+	};
+	
+	var event = {
+		/**
+		 * obj对象的eventType永久添加fn回调函数
+		 * @param eventType
+		 * @param fn
+		 * @param param
+		 * @return {Function}
+		 */
+		addEvent : function(obj,eventType,fn,param) {
+			if(!$.isFunction(fn)) {
+				return;
+			}
+			var origFn = fn;
+			fn = function() {
+				return origFn.call(this,param);
+			};
+			obj.attachEvent(eventType,fn);
+			return fn;
+		},
+		
+		/**
+		 * 给obj对象的eventType绑定执行一次的fn回调函数
+		 * @param obj {HTML Object} html元素
+		 * @param eventType {String} 时间类型
+		 * @param fn {Function} 回调函数
+		 * @param param {Object} 残敌给回调函数的参数
+		 * @return {Function} 返回绑定函数
+		 */
+		addOneEvent : function(obj,eventType,fn,param) {
+			if(!$.isFunction(fn)){
+				return;
+			}
+			var origFn = fn;
+			
+			fn = function() {
+				var flag = obj.detachEvent(eventType,fn);
+				return origFn.call(this,param);
+			};
+			obj.attachEvent(eventType,fn);
+			return fn;
+		},
+		/**
+		 * 
+		 * @param type
+		 * @param event
+		 */
+		removeEvent : function(obj,eventType,fn) {
+			if($.isFunction(fn)) {
+				obj.detachEvent(eventType,fn);
+			}
+		}
+	};
+	
+	
+	var ParPhoneEx = function() {
+		
+	};
+	
+	ParPhoneEx.fn = ParPhoneEx.prototype = {
+		init : function(mainWin) {
+			ParPhoneEx.init(mainWin);
+		}
+	};
+	
+	ParPhoneEx.fn = ParPhoneEx.prototype;
+	
+	ParPhoneEx.extend = function(jsonObj) {
+		$.extend(this,jsonObj);
+	};
+	
+	ParPhoneEx.fn.extend = function(jsonObj) {
+		$.extend(this,jsonObj);
+	};
+	
+	ParPhoneEx.extend({
+		mainWin : null,
+		
+		cCcommonTool : null,
+		
+		parPhone : null,
+		
+		initFlag : false,
+		
+		constructor : ParPhoneEx,
+		
+		init : function(mainWin) {
+			this.mainWin = mainWin;
+			this.parPhone = mainWin.parPhone;
+			this.cCcommonTool = mainWin.cCcommonTool;
+			this.initFlag = true;
+		},
+		
+		/**
+		 * 
+		 * @param phoneEvent
+		 * @param param
+		 * @param one
+		 * @returns {___anonymous2688_2689} 封装之后的回调函数
+		 */
+		addPhoneEvent : function(phoneEvent,param,one) {
+			var bufEvent = {};
+			var eventType = null;
+			for(eventType in phoneEvent) {
+				if(one)
+					bufEvent[eventType] = event.addOneEvent(this.parPhone, eventType, phoneEvent[eventType], param);
+				else
+					bufEvent[eventType] = event.addEvent(this.parPhone, eventType, phoneEvent[eventType], param);
+			}
+			return bufEvent;
+		},
+		
+		/**
+		 * 删除parPhone注册的事件,phoneEvent来自addPhoneEvent的返回值才能起作用
+		 * @param phoneEvent {Object} 
+		 */
+		removePhoneEvent : function(phoneEvent) {
+			for(eventType in phoneEvent) {
+				event.removeEvent(this.parPhone, eventType, phoneEvent[eventType]);
+			}
+		},
+		
+		/**
+		 * 外乎，使用callOutEvent中的事件在handler_event中的事件后执行,不影响handler_event中的事件
+		 * 在OnCallOutFailure和OnCallOutSuccTalk事件中还原所有事件的处理方式
+		 * @method callOut {Function} 
+		 * @param caller {String} 主角号码 required
+		 * @param called {String} 被叫号码 required
+		 * @param callOutEvent {Object} optional 
+		 * @param param {Object} optional 传递给回调函数的入参
+		 * @param one {Boolean} optional true,添加一次执行回调函数,default = true
+		 * @param return {Object} 回调函数句柄
+		 */
+		callOutEx : function(caller,called,callOutEvent,param,one) {
+			if(typeof(one) == 'undefined')
+				one = true;
+			if(!(one === true)) 
+				one = false;
+			var bufEvent = this.addPhoneEvent(callOutEvent, param, one);
+			this.cCcommonTool.CallOutEx(caller,called);
+			return bufEvent;
+		}
+	});
+	
+	ParPhoneEx.fn.extend({
+		
+		toString : function(jsonObj) {
+			var buf = "";
+			var key = null;
+			if($.isEmptyObject(jsonObj)) {
+				return buf;
+			} else if($.isPlainObject(jsonObj)) {
+				for(key in jsonObj) {
+					buf.concat(toString.call(this, jsonObj[key]));
+				}
+				return buf;
+			} else if($.isFunction(jsonObj)) {
+				buf = jsonObj.call(this);
+			} else {
+				buf = "";
+			}
+		},
+		/**
+		 * 
+		 * @returns 1-外呼 0-呼入
+		 */
+		getCallType : function() {
+			return ParPhoneEx.mainWin.g_callOutFlag;
+		},
+		
+		/**
+		 * 
+		 * @returns 用户手机号码
+		 */
+		getCallerPhone : function() {
+			var callType = this.getCallType();
+			return callType == 1 ? ParPhoneEx.cCcommonTool.getCalled() : ParPhoneEx.cCcommonTool.getCaller();
+		},
+		
+		/**
+		 * 获取当前的主叫
+		 * @returns
+		 */
+		getContactId : function() {
+			return ParPhoneEx.mainWin.document.getElementById("contactId").value;
+		},
+		
+		/**
+		 * 获取当前受理号码
+		 * @returns
+		 */
+		getAcceptNo : function() {
+			return ParPhoneEx.mainWin.document.getElementById("navPhoneNo").value;
+		},
+		
+		/**
+		 * 获取用户号码信息
+		 * @param activePhone
+		 * @returns {JSON}
+		 */
+		getCustInfo : function(activePhone) {
+			var user_index = ParPhoneEx.mainWin.document.getElementById("iframe"+activePhone).contentWindow.document.frames("iframe0000");
+			var custInfo = {"activePhone" : activePhone,	//受理号码
+					"activeIdNo" : user_index.document.getElementById("userId").value,	//idNo
+					"activeCustId" : user_index.document.getElementById("custId").value,	//custId
+					"activeBrandId" : user_index.document.getElementById("brandId").value,	//品牌
+					"activeBrandName" : user_index.document.getElementById("brandName").value,	//品牌名称
+					"activeProdId" : user_index.document.getElementById("mainProdId").value,	//主资费id
+					"activeProdName" : user_index.document.getElementById("mainProdName").value,	//主资费名称
+					"activeMasterServId" : user_index.document.getElementById("masterServId").value,	//
+					"activeMasterServName" : user_index.document.getElementById("masterServName").value,	//
+					"activeRegionId" : user_index.document.getElementById("regionId").value,	//用户地市
+					"activeGroupId" : user_index.document.getElementById("groupId").value};		//组织机构
+			return custInfo;
+		},
+		
+		/**
+		 * 获取当前受理号码
+		 * @returns {String}
+		 */
+		getCustName : function() {
+			return ParPhoneEx.mainWin.document.getElementById("navCallerName").innerText;
+		},
+		
+		callOut : function(caller,called,sucFunc,failFuc,param) {
+			var bufEvent = {};
+			var callOutEvent = {
+				OnReleaseExSuccess : function(){
+					ParPhoneEx.removePhoneEvent(bufEvent);
+					failFunc(param);
+				},
+				OnCallOutSuccTalk : function(){
+					ParPhoneEx.removePhoneEvent(bufEvent);
+					sucFunc(param);
+				}
+			};
+			bufEvent = ParPhoneEx.callOutEx(caller,called,callOutEvent,param,true);
+		}
+	});
+	
+	//单例parPhone对象
+	var _parPhoneEx = window.parPhoneEx;
+	var parPhoneEx = new ParPhoneEx();
+	window.parPhoneEx = parPhoneEx;
+})(window,undefined);
+
+function init(){
+	var mainWin = {"parPhone" : "parPhone","cCcommonTool":"cCcommonTool"};
+	parPhoneEx.init(mainWin);
+}
+</script>
+</html

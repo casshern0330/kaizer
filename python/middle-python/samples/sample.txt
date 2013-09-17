@@ -1,0 +1,4 @@
+1
+None
+Use exit() or Ctrl-D (i.e. EOF) to exit
+�一个号男人吗
