@@ -5,6 +5,7 @@ bin-release/
 *.[oa]
 *.exe
 *~
+*.stackdump
 
 # Other files and folders
 .settings/
