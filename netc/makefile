@@ -1,6 +1,6 @@
 HOME = /home/hucw
 INCLUDE = -I/usr/include -I$(HOME)/include
-LIB = -L$(HOME)/lib -lunp -lm
+LIBS = -L$(HOME)/lib -lunp -lm
 CFLAGS = -g -O2 -Wall $(INCLUDE)
 BINDIR=./bin
 
@@ -50,6 +50,18 @@ mygetaddrinfo:mygetaddrinfo.o
 	$(CC) $(CFLAGS) -o $(BINDIR)/$@ $? $(LIBS)
 
 print_addr:print_addr.o
+	rm -rf $(BINDIR)/$@
+	$(CC) $(CFLAGS) -o $(BINDIR)/$@ $? $(LIBS)
+
+test:test.o
+	rm -rf $(BINDIR)/$@
+	$(CC) $(CFLAGS) -o $(BINDIR)/$@ $? $(LIBS)
+
+inet_ntop_ex:inet_ntop_ex.o
+	rm -rf $(BINDIR)/$@
+	$(CC) $(CFLAGS) -o $(BINDIR)/$@ $? $(LIBS)
+
+inet_aton_ex:sample/inet_aton_ex.o
 	rm -rf $(BINDIR)/$@
 	$(CC) $(CFLAGS) -o $(BINDIR)/$@ $? $(LIBS)
 
